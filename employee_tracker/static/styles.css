@@ -1,0 +1,22 @@
+body {
+    font-family: Arial, sans-serif;
+    padding: 20px;
+}
+table {
+    border-collapse: collapse;
+    width: 100%;
+}
+th, td {
+    border: 1px solid #ddd;
+    text-align: center;
+    padding: 10px;
+}
+.cell {
+    cursor: pointer;
+}
+.cell.in {
+    background-color: lightgreen;
+}
+.cell.out {
+    background-color: lightcoral;
+}

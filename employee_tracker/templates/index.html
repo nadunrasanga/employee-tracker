@@ -1,0 +1,47 @@
+<!DOCTYPE html>
+<html>
+<head>
+    <title>Employee Availability Tracker</title>
+    <link rel="stylesheet" href="{{ url_for('static', filename='styles.css') }}">
+</head>
+<body>
+    <h1>Employee Availability</h1>
+    <table>
+        <tr>
+            <th>Employee</th>
+            {% for day in days %}
+                <th>{{ day }}</th>
+            {% endfor %}
+        </tr>
+        {% for emp, days_status in table.items() %}
+        <tr>
+            <td>{{ emp }}</td>
+            {% for day in days %}
+            <td class="cell {{ days_status[day]|lower }}" data-employee="{{ emp }}" data-day="{{ day }}">
+                {{ days_status[day] }}
+            </td>
+            {% endfor %}
+        </tr>
+        {% endfor %}
+    </table>
+
+<script>
+document.querySelectorAll('.cell').forEach(cell => {
+    cell.addEventListener('click', function() {
+        const emp = this.dataset.employee;
+        const day = this.dataset.day;
+        fetch('/toggle', {
+            method: 'POST',
+            headers: {'Content-Type': 'application/x-www-form-urlencoded'},
+            body: `employee=${emp}&day=${day}`
+        })
+        .then(res => res.json())
+        .then(data => {
+            this.textContent = data.status;
+            this.className = 'cell ' + data.status.toLowerCase();
+        });
+    });
+});
+</script>
+</body>
+</html>
